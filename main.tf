@@ -8,6 +8,6 @@ resource "aws_instance" "app_server" {
   key_name      = "terraform"
   count         = 4
   tags = {
-    Name = var.ec2_name-${count.index}
+    Name = "${var.ec2_name}-${count.index}"
   }
 }
