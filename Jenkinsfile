@@ -7,7 +7,7 @@ properties([
 
 node {
     stage('Checkout') {
-        git branch: '${env.BRANCH_NAME}', url: 'https://github.com/anjibabu006/terraform-jenkins.git'
+        git url: 'https://github.com/anjibabu006/terraform-jenkins.git'
     }
 
     stage('Terraform Init') {
