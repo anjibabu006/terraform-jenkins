@@ -7,7 +7,7 @@ node {
         // Pass Jenkins job name as workflow_name variable
         sh """
           terraform init \
-          -backend-config="key=terraform/${env.JOB_NAME}/terraform.tfstate" \
+          -backend-config="key=terraform/${env.BRANCH_NAME}/terraform.tfstate" \
           -reconfigure
         """
     }
@@ -34,7 +34,7 @@ node {
         '''
     }
     stage('Terraform Plan') {
-        sh "terraform plan -var workflow_name=${env.JOB_NAME} -out=tfplan"
+        sh "terraform plan -var workflow_name=${env.BRANCH_NAME} -out=tfplan"
     }
 
     stage('Approval') {
