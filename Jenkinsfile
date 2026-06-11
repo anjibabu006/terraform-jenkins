@@ -11,7 +11,28 @@ node {
           -reconfigure
         """
     }
+    stage('Check Tools') {
+        // Check Terraform installation and version
+        sh '''
+          if ! command -v terraform &> /dev/null
+          then
+            echo "❌ Terraform is not installed!"
+            exit 1
+          else
+            echo "✅ Terraform version:"
+            terraform version
+          fi
 
+          if ! command -v aws &> /dev/null
+          then
+            echo "❌ AWS CLI is not installed!"
+            exit 1
+          else
+            echo "✅ AWS CLI version:"
+            aws --version
+          fi
+        '''
+    }
     stage('Terraform Plan') {
         sh "terraform plan -var workflow_name=${env.JOB_NAME} -out=tfplan"
     }
