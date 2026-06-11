@@ -1,6 +1,6 @@
 node {
     stage('Checkout') {
-        git branch: 'main', url: 'https://github.com/anjibabu006/terraform-jenkins.git'
+        git branch: '${env.BRANCH_NAME}', url: 'https://github.com/anjibabu006/terraform-jenkins.git'
     }
 
     stage('Terraform Init') {
