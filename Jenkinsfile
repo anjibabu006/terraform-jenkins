@@ -6,8 +6,14 @@ properties([
 ])
 
 node {
+     // Define branch name as a Groovy variable
+    def branchName = env.BRANCH_NAME
+
+    stage('Show Branch') {
+        echo "Currently building branch: ${branchName}"
+    }
     stage('Checkout') {
-        git url: 'https://github.com/anjibabu006/terraform-jenkins.git'
+        git branch: branchName, url: 'https://github.com/anjibabu006/terraform-jenkins.git'
     }
 
     stage('Terraform Init') {
