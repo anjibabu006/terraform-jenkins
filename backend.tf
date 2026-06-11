@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket         = "terraform-backend-created-janga"
-    key            = "terraform/app-server/terraform.tfstate"
+    key            = "terraform/app-server111/terraform.tfstate"
     region         = "us-east-1"
     encrypt        = true
 
