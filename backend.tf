@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket         = "terraform-backend-created-janga"
+    bucket         = "terraform-backend-created-demo"
     key            = "terraform/${var.workflow_name}/terraform.tfstate"
     region         = "us-east-1"
     encrypt        = true
