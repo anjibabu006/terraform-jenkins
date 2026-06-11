@@ -1,3 +1,10 @@
+// Define job parameters
+properties([
+    parameters([
+        string(name: 'INSTANCE_COUNT', defaultValue: '2', description: 'Number of EC2 instances to create')
+    ])
+])
+
 node {
     stage('Checkout') {
         git branch: '${env.BRANCH_NAME}', url: 'https://github.com/anjibabu006/terraform-jenkins.git'
@@ -34,7 +41,7 @@ node {
         '''
     }
     stage('Terraform Plan') {
-        sh "terraform plan -var workflow_name=${env.BRANCH_NAME} -out=tfplan"
+        sh "terraform plan -var instance_count=${params.INSTANCE_COUNT} workflow_name=${env.BRANCH_NAME} -out=tfplan"
     }
 
     stage('Approval') {
