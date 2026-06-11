@@ -7,7 +7,7 @@ properties([
 
 node {
      // Define branch name as a Groovy variable
-    def branchName = main
+    def branchName = "main"
 
     stage('Show Branch') {
         echo "Currently building branch: ${branchName}"
