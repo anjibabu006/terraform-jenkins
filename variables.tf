@@ -6,3 +6,7 @@ variable "ec2_name" {
 variable "workflow_name" {
   type = string
 }
+variable "instance_count" {
+  type = number
+  default = 1
+}
