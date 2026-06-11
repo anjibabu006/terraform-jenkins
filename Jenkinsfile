@@ -6,26 +6,33 @@ properties([
 ])
 
 node {
-     // Define branch name as a Groovy variable
-    def branchName = env.BRANCH_NAME
+    // Define branch name as a Groovy variable (fixed to string)
+    def branchName = "main"
 
     stage('Show Branch') {
         echo "Currently building branch: ${branchName}"
     }
+    stage('Clean Workspace') {
+        // Deletes everything in the current workspace
+        deleteDir()
+        echo "Workspace cleaned successfully!"
+    }
     stage('Checkout') {
+        sh 'rm -rf * .git' 
         git branch: branchName, url: 'https://github.com/anjibabu006/terraform-jenkins.git'
     }
 
     stage('Terraform Init') {
-        // Pass Jenkins job name as workflow_name variable
+        // Use branchName variable directly
         sh """
           terraform init \
-          -backend-config="key=terraform/${env.BRANCH_NAME}/terraform.tfstate" \
+          -backend-config="key=terraform/${branchName}/terraform.tfstate" \
           -reconfigure
         """
     }
+
     stage('Check Tools') {
-        // Check Terraform installation and version
+        // Check Terraform and AWS CLI installation
         sh '''
           if ! command -v terraform &> /dev/null
           then
@@ -46,13 +53,14 @@ node {
           fi
         '''
     }
+
     stage('Terraform Plan') {
-        sh "terraform plan -var instance_count=${params.INSTANCE_COUNT} -var workflow_name=${env.BRANCH_NAME} -out=tfplan"
+        sh "terraform plan -var instance_count=${params.INSTANCE_COUNT} -var workflow_name=${branchName} -out=tfplan"
     }
 
-    stage('Approval') {
-        input message: "Approve Terraform Apply for job ${env.JOB_NAME}?", ok: "Apply"
-    }
+   // stage('Approval') {
+     //   input message: "Approve Terraform Apply for job ${env.JOB_NAME}?", ok: "Apply"
+    //}
 
     stage('Terraform Apply') {
         sh "terraform apply -auto-approve tfplan"
