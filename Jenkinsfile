@@ -47,7 +47,7 @@ node {
         '''
     }
     stage('Terraform Plan') {
-        sh "terraform plan -var instance_count=${params.INSTANCE_COUNT} workflow_name=${env.BRANCH_NAME} -out=tfplan"
+        sh "terraform plan -var instance_count=${params.INSTANCE_COUNT} -var workflow_name=${env.BRANCH_NAME} -out=tfplan"
     }
 
     stage('Approval') {
