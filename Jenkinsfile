@@ -58,9 +58,9 @@ node {
         sh "terraform plan -var instance_count=${params.INSTANCE_COUNT} -var workflow_name=${branchName} -out=tfplan"
     }
 
-    stage('Approval') {
-        input message: "Approve Terraform Apply for job ${env.JOB_NAME}?", ok: "Apply"
-    }
+//    stage('Approval') {
+   //     input message: "Approve Terraform Apply for job ${env.JOB_NAME}?", ok: "Apply"
+    //}
 
     stage('Terraform Apply') {
         sh "terraform apply -auto-approve tfplan"
